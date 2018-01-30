@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <!-- appender 是日志输出目的地-->
+	<appender name="local" class="ch.qos.logback.core.ConsoleAppender">
+		<Target>System.out</Target>
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss}|%t|%p|%F|%L|%m%n</Pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.tk" level="INFO" additivity = "false">
+		<appender-ref ref="local" />
+	</logger>
+	<root level="ERROR">
+		<appender-ref ref="local" />
+	</root>
+</configuration>

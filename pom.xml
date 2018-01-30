@@ -1,0 +1,150 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.taikang</groupId>
+  <artifactId>mysql-2-elasticsearch-tool</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  		
+  <properties>
+  	 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	 <package.environment>dev</package.environment>
+	 <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+	 <maven.compiler.source>1.8</maven.compiler.source>
+	 <maven.compiler.target>1.8</maven.compiler.target>
+	 <spring.version>4.1.8.RELEASE</spring.version>
+	 <skipTests>true</skipTests>
+  </properties>
+  
+  
+  <dependencies>	
+  
+  		<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			<version>5.6.4</version>
+		</dependency>
+		<!-- 这个一定要引入，这是使用transport的jar -->
+		<dependency>
+			<groupId>org.elasticsearch.client</groupId>
+			<artifactId>transport</artifactId>
+			<version>5.6.4</version>
+		</dependency>
+		<!-- es 的jar 对guava有依赖 -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>18.0</version>
+		</dependency>
+	
+	<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+	</dependency>
+		
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context-support</artifactId>
+		<version>${spring.version}</version>
+		<type>jar</type>
+		<scope>compile</scope>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-core</artifactId>
+		<version>${spring.version}</version>
+		<type>jar</type>
+		<scope>compile</scope>
+	</dependency>
+
+	<dependency>  
+         <groupId>org.springframework</groupId>  
+         <artifactId>spring-tx</artifactId>  
+         <version>${spring.version}</version>  
+     </dependency>  
+
+     <dependency>  
+         <groupId>org.springframework</groupId>  
+         <artifactId>spring-jdbc</artifactId>  
+         <version>${spring.version}</version>  
+     </dependency>
+	
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>fastjson</artifactId>
+		<version>1.1.22</version>
+		<type>jar</type>
+		<scope>compile</scope>
+	</dependency>
+	
+	<dependency>
+		<groupId>commons-lang</groupId>
+		<artifactId>commons-lang</artifactId>
+		<version>2.5</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>logback-classic</artifactId>
+		<version>1.0.9</version>
+		<type>jar</type>
+		<scope>runtime</scope>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.apache.logging.log4j</groupId>
+	  <artifactId>log4j-core</artifactId>
+	  <version>2.10.0</version>
+	</dependency>
+    
+     <!-- 导入Mysql数据库链接jar包 -->  
+    <dependency>  
+        <groupId>mysql</groupId>  
+        <artifactId>mysql-connector-java</artifactId>  
+        <version>5.1.30</version>  
+    </dependency> 
+    <!-- dom4j依赖 -->
+    <dependency>   
+      <groupId>dom4j</groupId>    
+      <artifactId>dom4j</artifactId>    
+      <version>1.6</version>   
+    </dependency>  
+  </dependencies>
+  
+  <!-- 项目构建配置 -->
+ <build>
+    <finalName>mongodb-2-mysql-tool</finalName>
+    <plugins>
+     <plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-shade-plugin</artifactId>
+		  <version>2.4.3</version>
+		  <executions>
+		    <execution>
+		      <phase>package</phase>
+		      <goals>
+		        <goal>shade</goal>
+		      </goals>
+		      <configuration>
+		        <transformers>
+		          <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+		            <resource>META-INF/spring.handlers</resource>
+		          </transformer>
+		          <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+		            <resource>META-INF/spring.schemas</resource>
+		          </transformer>
+		          <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+		            <mainClass>com.tk.Application</mainClass>
+		          </transformer>
+		        </transformers>
+		      </configuration>
+		    </execution>
+		  </executions>
+		</plugin>
+    </plugins>
+  </build>
+     
+  
+</project>

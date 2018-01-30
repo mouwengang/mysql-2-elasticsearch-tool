@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	
+	<!-- elasticsearch连接配置 -->
+	<elasticsearch>
+			<clusterName>store_es_cluster</clusterName>
+			<clusterNodes>10.130.211.29:8081</clusterNodes>
+			<index>store</index>
+			<type>goods</type>
+	</elasticsearch>
+	
+	<!-- mysql连接配置 -->
+	<mysqlsource>
+		<url>jdbc:mysql://10.130.211.246:3306/ltci_store?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull</url>
+		<username>store</username>
+		<password>store</password>
+		<!-- 查询的sql，列的别名 需要和 elasticsearch的mapping字段对应，date类型的字段要转成yyyy-MM-dd HH:mm:ss格式 ,为了有序最好加一个排序-->
+		<sql>select DATE_FORMAT(g.addtime,'%Y-%m-%d %H:%i:%s') addtime, gb.`name` brand, 
+			g.city_code citycode,g.goods_deposit goodsDeposit,
+			g.goods_rent goodsRent,g.id,g.goods_name name ,
+			getParentList(g.gc_id) goodsClassIds,g.goods_collect,g.goods_details,
+			g.goods_salenum,g.goods_store_id store_id,s.store_name,
+			CONCAT(ac.path,'/',ac.`name`) img_url
+			from goods g 
+			LEFT JOIN goo_brand gb ON g.goods_brand_id = gb.id 
+			LEFT JOIN goo_class gc ON gc.id = g.gc_id
+			LEFT JOIN store s ON s.id = g.goods_store_id 
+			LEFT JOIN accessory ac ON ac.id = g.goods_main_photo_id
+ 			where goods_status = 0 ORDER BY g.addtime asc </sql>
+		<!-- 因es中的时间格式特殊，需要转换，所以要把是date类型的字段转换，在这里配置，多个用 “,”号隔开，如：addtime,updatetime-->
+		<datecolumns>addtime</datecolumns>
+	</mysqlsource>
+	
+	<!-- 查询、插入线程个数 ,默认都是1-->
+	<threadsource>
+		<!-- 查询mysql数据的线程 -->
+		<producerNum>6</producerNum>
+		<!-- 插入数据到elasticsearch的线程,建议比查询线程 多一点 -->
+		<consumerNum>8</consumerNum>
+	</threadsource>
+	
+</configuration>
