@@ -8,7 +8,8 @@
 配置说明：
 
 1、elasticsearch的集群节点、索引、类型配置
-<elasticsearch>
+
+	<elasticsearch>
 			<clusterName>store_es_cluster</clusterName>
 			<clusterNodes>127.0.0.1:9300</clusterNodes>
 			<index>store</index>
