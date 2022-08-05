@@ -59,7 +59,7 @@ public class Application {
 		//结束时间
 		long end = System.currentTimeMillis();
 		long result = end-start;
-		logger.info("transfer over in "+result/1000+" seconds"+" ,total :\t"+ count+" record.");
+		logger.info("transfer over daixianghuang in "+result/1000+" seconds"+" ,total :\t"+ count+" record.");
 	}
 	
 	private static void createThread(TransportClient transportClient, JdbcTemplate jdbcTemplate, int totalPage)
